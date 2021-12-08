@@ -8,6 +8,8 @@ Tags: 序列化 GO
 
 grpc使用protobuf进行数据的序列化和反序列化，在开发中经常需要写proto文件，进行接口声明定义，然后通过protoc工具转成相应的代码文件，protoc工具不支持生成go代码文件，需要按照相应的插件协助；本文主要介绍protoc工具的使用，以及proto文件的定义。
 
+<!-- more -->
+
 ## 介绍
 
 ### protoc指令

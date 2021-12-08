@@ -8,11 +8,13 @@ tags: git
 
 git在代码回滚提供了多种方式，比如：git reset...，git revert...，git rebase...等，使用哪种方式回退，取决于实际回退场景。
 
+<!-- more -->
+
 #### git reset
 
 回退版本，直接把代码回退到某个提交，以实际例子，演示下需要如何回退：
 
-- ![avatar](https://102er.github.io/images/git-reset-log.png)
+![avatar](https://102er.github.io/images/git-reset-log.png)
 
 看提交记录，我们把dev分支不小心合并到了当前特性分支，需要剪掉dev的分支，保证功能分支的特性唯一。从分支线图看出，我们需要回退到 commit id = a94308f 这个版本，问题点是，我们在dev合并之后，又commit了几个记录，我们的目的是剪掉dev合并这次记录，如果是普通的commit 那么我们可以用git revert 撤销这个提交。但是这个是merge操作，没办法。所以，只能回退到a94308f这个版本，然后把dev后的提交pick进来。具体命令如下：
 

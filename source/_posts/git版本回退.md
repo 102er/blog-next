@@ -1,6 +1,8 @@
 ---
 title: git版本回退
 date: 2021-10-10 22:05:14
+categories:
+    - git
 tags: git
 ---
 

@@ -1,7 +1,10 @@
 ---
 title: protoc使用
 date: 2021-11-12 17:24:00
-Tags: 序列化 GO
+categories:
+    - GO
+Tags: 
+    - 序列化
 ---
 
 ## 概述

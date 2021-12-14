@@ -4,7 +4,6 @@ date: 2021-12-09 10:11:41
 categories:
     - GO
 tags:
-    - go
     - 认证
 ---
 
@@ -12,22 +11,24 @@ tags:
 
 **IAM：**Identity and Access Management的缩写，即身份识别与访问管理，具有单点登录(SSO-Single Sign On)，认证管理，基于策略的集中式授权和审计，动态授权等功能。
 
-**keycloak：**是IAM的解决方案，用于管理用户的注册、登录、单点登录Single Sign On（SSO，开放app接口的授权等。
+**keycloak：**是IAM的解决方案，用于管理用户的注册、登录、单点登录Single Sign On（SSO）、开放app接口的授权等。
+
+<!-- more -->
 
 ## 实现
 
 keycloak并没有提供go的接入适配器，所以需要我们自行实现。接入keycloak有两种常用的认证方式：
 
-1. OpenID Connect（oidc）：在oauth2.0上的一种授权认证协议
+1. OpenID Connect（oidc）：在oauth2.0上的一种授权认证协议，OIDC使用OAuth2的授权服务器来为第三方客户端提供用户的身份认证，并把对应的身份认证信息传递给客户端，且可以适用于各种类型的客户端（比如服务端应用，移动APP，JS应用），且完全兼容OAuth2，也就是说你搭建了一个OIDC的服务后，也可以当作一个OAuth2的服务来用。
 2. SAML：认证授权协议
 
 两种方式都可接入，oidc会相对简单一点。（当然，还得看我们iam是否有配置两种协议的endpoint）
 
 我们选择用oidc的认证方式接入IAM。OIDC是OpenID Connect的简称，OIDC=(Identity, Authentication) + OAuth 2.0。它在OAuth2上构建了一个身份层，是一个基于OAuth2协议的身份认证标准协议。具体可以参考文档：https://www.cnblogs.com/linianhui/p/openid-connect-core.html#auto-id-0
 
-go生态有go-oidc和oauth2.0组件，可以帮助我们解决和iam交互工作，我们只需负责提供认证流程需要的接口即可。认证流程图：
+go生态有go-oidc和oauth2.0组件，可以帮助我们解决和iam交互工作，我们只需负责提供认证流程需要的接口即可。认证交互流程图：
 
-TODO
+![osi](https://102er.github.io/uploads/iam-login.png)
 
 ### **oidc和oauth初始化**
 
@@ -119,5 +120,12 @@ func (u *UserRepo) LoginCallback(ctx context.Context, state, code string) {
 	}
   //iam认证成功 可以开始创建本地token
   // ... 自己撸代码
+}
+
+// Redirect iam登录成功回调接口
+// ctx根据自己的业务自己改造
+func (u *UserRepo) RedirectHandler(ctx *http.Request) string {
+	query := ctx.URL.RawQuery
+	return u.Iam.feRedirectURL + "?" + query + "#/cost/dashboard"
 }
 ```

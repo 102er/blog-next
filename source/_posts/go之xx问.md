@@ -1,6 +1,8 @@
 ---
 title: go之xx问
 date: 2021-08-09 14:29:55
+categories:
+    - GO
 tags: GO
 ---
 

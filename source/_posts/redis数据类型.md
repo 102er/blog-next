@@ -1,8 +1,10 @@
 ---
 title: redis数据类型
 date: 2020-08-19 14:30:46
+categories:
+    - 存储
 tags:
-      - redis
+    - redis
 ---
 
 ## 概述

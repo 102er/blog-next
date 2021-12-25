@@ -1,6 +1,9 @@
 ---
 title: 服务部署nginx+keepalived
 date: 2020-05-19 14:27:22
-tags:
+categories:
+    - 服务部署
+tags:	
+  - 负载均衡
 ---
 

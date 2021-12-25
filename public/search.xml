@@ -45,6 +45,9 @@
     <title>prometheus</title>
     <url>/2021/03/23/prometheus/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>监控</category>
+      </categories>
   </entry>
   <entry>
     <title>protoc使用</title>
@@ -79,12 +82,62 @@
   <entry>
     <title>二分查找</title>
     <url>/2021/08/22/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>二分查找（binary search），也称折半搜索（half-interval search）、对数搜索（logarithmic search），是一种在<strong>有序数组</strong>中查找某一特定元素的搜索算法。</p>
+<p>搜索过程从数组的中间元素开始，如果中间元素正好是要查找的元素，则搜索过程结束；如果某一特定元素大于或者小于中间元素，则在数组大于或小于中间元素的那一半中查找，而且跟开始一样从中间元素开始比较。如果在某一步骤数组为空，则代表找不到。这种搜索算法每一次比较都使搜索范围缩小一半。</p>
+<span id="more"></span>
+
+<p>返回第一次匹配中的目标值，代码实现如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//nums是有序数组</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">binarySearch</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   left, right := <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span></span><br><span class="line">   <span class="keyword">for</span> left &lt;= right &#123;</span><br><span class="line">      mid := (left + right) / <span class="number">2</span></span><br><span class="line">      <span class="keyword">if</span> nums[mid] == target &#123;</span><br><span class="line">         <span class="keyword">return</span> mid</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[mid] &gt; target &#123;</span><br><span class="line">         right = mid - <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         left = mid + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：O(\log n)<em>O</em>(log<em>n</em>)，其中 n<em>n</em> 是数组的长度。</p>
+<p>数组有重复元素的情况下，返回目标值在数组中最小索引位置：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">binarySearchLeftBound</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   left, right := <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span></span><br><span class="line">   <span class="keyword">for</span> left &lt;= right &#123;</span><br><span class="line">      mid := (left + right) / <span class="number">2</span></span><br><span class="line">      <span class="keyword">if</span> nums[mid] &gt; target &#123;</span><br><span class="line">         right = mid - <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[mid] &lt; target &#123;</span><br><span class="line">         left = mid + <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         right = mid - <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//没有匹配值</span></span><br><span class="line">   <span class="keyword">if</span> left == <span class="built_in">len</span>(nums) || nums[left] != target &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> left</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数组有重复元素的情况下，返回目标值在数组中最大索引位置：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">binarySearchRightBound</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">   left, right := <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span></span><br><span class="line">   <span class="keyword">for</span> left &lt;= right &#123;</span><br><span class="line">      mid := (left + right) / <span class="number">2</span></span><br><span class="line">      <span class="keyword">if</span> nums[mid] &gt; target &#123;</span><br><span class="line">         right = mid - <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[mid] &lt; target &#123;</span><br><span class="line">         left = mid + <span class="number">1</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         left = mid + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span> right&lt;<span class="number">0</span> || nums[right] != target &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> right</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>数据结构和算法</category>
+      </categories>
   </entry>
   <entry>
     <title>二叉树遍历</title>
     <url>/2021/08/19/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>二叉树是一种「数据结构」，二叉树是每个节点最多有<code>**两个子树**</code>的树结构，通常子树被称作“左子树”和“右子树”。如下图：</p>
+<p><img src="https://102er.github.io/uploads/2chashu.png" alt="osi"></p>
+<ul>
+<li><strong>满二叉树</strong>：对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。</li>
+<li><strong>完全二叉树：</strong>对于一棵具有nn个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为ii的节点与同样深度的满二叉树中编号为ii的节点在二叉树中的位置完全相同，则这棵二叉树称为完全二叉树。</li>
+</ul>
+<span id="more"></span>
+
+<p>二叉树的遍历包括前序，中序，后序和层序几种不同的遍历方式。</p>
+<h3 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h3><p>首先遍历根节点，其次遍历左孩子，再遍历右孩子，按照如此的顺序遍历整棵树，遍历结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>6</th>
+<th>9</th>
+<th>23</th>
+<th>5</th>
+<th>10</th>
+<th>7</th>
+<th>8</th>
+<th>22</th>
+<th>34</th>
+</tr>
+</thead>
+</table>
+<p>代码实现：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> TreeNode <span class="keyword">struct</span> &#123;</span><br><span class="line">   Val   <span class="keyword">int</span></span><br><span class="line">   Left  *TreeNode</span><br><span class="line">   Right *TreeNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//前序遍历</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preorderTraversal</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> preorder <span class="function"><span class="keyword">func</span><span class="params">(node *TreeNode)</span></span></span><br><span class="line">   <span class="keyword">var</span> result []<span class="keyword">int</span></span><br><span class="line">   preorder = <span class="function"><span class="keyword">func</span><span class="params">(node *TreeNode)</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> node == <span class="literal">nil</span> &#123;</span><br><span class="line">         <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      result = <span class="built_in">append</span>(result, node.Val)</span><br><span class="line">      preorder(node.Left) <span class="comment">//遍历左树</span></span><br><span class="line">      preorder(node.Right) <span class="comment">//遍历右树</span></span><br><span class="line">   &#125;</span><br><span class="line">   preorder(root)</span><br><span class="line">   <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><p>首先遍历左子树，其次遍历父节点，最后遍历右子树，按照如此的顺序遍历整棵树</p>
+<h3 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h3><p>首先遍历左子树，其次遍历右子树，最后遍历父节点</p>
+<h3 id="层序遍历"><a href="#层序遍历" class="headerlink" title="层序遍历"></a>层序遍历</h3><p>需要使用链表存储每一层的节点，同时，遍历完一个节点，将其左右子节点增加近链表中</p>
+]]></content>
+      <categories>
+        <category>数据结构和算法</category>
+      </categories>
   </entry>
   <entry>
     <title>mysql索引介绍</title>
@@ -94,16 +147,11 @@
 
 <h2 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h2>]]></content>
       <categories>
-        <category>数据库</category>
+        <category>存储</category>
       </categories>
       <tags>
         <tag>mysql</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>rabbitMQ介绍</title>
-    <url>/2020/06/19/rabbitMQ%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>redis数据类型</title>
@@ -112,6 +160,9 @@
 <span id="more"></span>
 
 ]]></content>
+      <categories>
+        <category>存储</category>
+      </categories>
       <tags>
         <tag>redis</tag>
       </tags>
@@ -301,6 +352,9 @@
 <h4 id="函数返回局部变量的指针是否安全？"><a href="#函数返回局部变量的指针是否安全？" class="headerlink" title="函数返回局部变量的指针是否安全？"></a>函数返回局部变量的指针是否安全？</h4><p>是的，在Go中这是绝对安全的。</p>
 <p>支持栈的Go编译器将会对每个局部变量进行逃逸分析。 对于官方标准编译器来说，如果一个值可以在编译时刻被断定它在运行时刻仅会在一个协程中被使用，则此值将被开辟在（此协程的）栈上；否则此值将被开辟在堆上。</p>
 ]]></content>
+      <categories>
+        <category>GO</category>
+      </categories>
       <tags>
         <tag>GO</tag>
       </tags>
@@ -308,7 +362,7 @@
   <entry>
     <title>go调度模型-GMP</title>
     <url>/2020/11/19/go%E8%B0%83%E5%BA%A6%E6%A8%A1%E5%9E%8B-GMP/</url>
-    <content><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>调度的进化 ：从进程到线程再到协程，其实就是不断共享，不断减少切换成本。go协程，在语言层面封装了协程调度，使用起来更方便。</p>
+    <content><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>调度的进化 ：从进程到线程再到协程，其实就是不断共享，不断减少切换成本。go协程，在语言层面封装了协程调度，使用起来更方便。</p>
 <span id="more"></span>
 
 <h4 id="并发-amp-并行"><a href="#并发-amp-并行" class="headerlink" title="并发&amp;并行"></a><strong>并发</strong>&amp;并行</h4><p><strong>并发：</strong>某一段时间，几个程序在同一个cpu上运行，但任意一个时间点只有一个程序在运行。解决程序排队等待的问题，如果一个程序发生阻塞，那么其他程序仍可以正常的执行。站在cpu的角度上，并发实际也是串行的。</p>
@@ -341,8 +395,8 @@
         <category>GO</category>
       </categories>
       <tags>
+        <tag>GO</tag>
         <tag>并发编程</tag>
-        <tag>GO开发</tag>
       </tags>
   </entry>
   <entry>
@@ -418,13 +472,19 @@
         <category>GO</category>
       </categories>
       <tags>
-        <tag>go开发</tag>
+        <tag>GO</tag>
       </tags>
   </entry>
   <entry>
     <title>服务部署nginx+keepalived</title>
     <url>/2020/05/19/%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2nginx+keepalived/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>服务部署</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
   </entry>
   <entry>
     <title>go获取ip地理信息</title>
@@ -442,7 +502,7 @@
         <category>GO</category>
       </categories>
       <tags>
-        <tag>GO开发</tag>
+        <tag>GO</tag>
       </tags>
   </entry>
   <entry>
@@ -476,7 +536,7 @@
         <category>GO</category>
       </categories>
       <tags>
-        <tag>go开发</tag>
+        <tag>GO</tag>
       </tags>
   </entry>
   <entry>
@@ -487,13 +547,25 @@
         <category>GO</category>
       </categories>
       <tags>
-        <tag>go开发</tag>
+        <tag>GO</tag>
       </tags>
   </entry>
   <entry>
     <title>go协程池实现</title>
     <url>/2021/12/15/go%E5%8D%8F%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>虽然go语言在调度Goroutine已经优化的非常完成，并且Goroutine作为轻量级执行流程，也不需要CPU调度器的切换，我们一般在使用的时候，如果想处理一个分支流程，直接go一下即可。</p>
+<p>但是，如果无休止的开辟Goroutine依然会出现高频率的调度Groutine，那么依然会浪费很多上下文切换的资源，导致做无用功。所以设计一个Goroutine池限制Goroutine的开辟个数在大型并发场景还是必要的。</p>
+<span id="more"></span>
+
+<p>go协程池实现：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> go_pool</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   <span class="string">&quot;strconv&quot;</span></span><br><span class="line">   <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Task <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TaskHandleFunc business handle function</span></span><br><span class="line"><span class="keyword">type</span> TaskHandleFunc <span class="function"><span class="keyword">func</span><span class="params">(Task <span class="keyword">interface</span>&#123;&#125;, workerName <span class="keyword">string</span>)</span> <span class="title">error</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// SuccessCallback task handle success callback</span></span><br><span class="line"><span class="keyword">type</span> SuccessCallback <span class="function"><span class="keyword">func</span><span class="params">(Task <span class="keyword">interface</span>&#123;&#125;, startTime time.Time, endTime time.Time)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ErrorCallback task handle failed callback</span></span><br><span class="line"><span class="keyword">type</span> ErrorCallback <span class="function"><span class="keyword">func</span><span class="params">(Task <span class="keyword">interface</span>&#123;&#125;, startTime time.Time, endTime time.Time, err error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// HandleFunctions handle function collection</span></span><br><span class="line"><span class="keyword">type</span> HandleFunctions <span class="keyword">struct</span> &#123;</span><br><span class="line">   TaskHandleFunc  TaskHandleFunc</span><br><span class="line">   SuccessCallback SuccessCallback</span><br><span class="line">   ErrorCallback   ErrorCallback</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker actual task performer</span></span><br><span class="line"><span class="keyword">type</span> Worker <span class="keyword">struct</span> &#123;</span><br><span class="line">   Id         <span class="keyword">int</span></span><br><span class="line">   Name       <span class="keyword">string</span></span><br><span class="line">   Func       HandleFunctions</span><br><span class="line">   WorkerPool <span class="keyword">chan</span> <span class="keyword">chan</span> Task</span><br><span class="line">   InTask     <span class="keyword">chan</span> Task</span><br><span class="line">   QuitSignal <span class="keyword">chan</span> <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CreateWorker Create a worker and add it to the pool.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CreateWorker</span><span class="params">(workerPool <span class="keyword">chan</span> <span class="keyword">chan</span> Task, handFunctions HandleFunctions, id <span class="keyword">int</span>, name <span class="keyword">string</span>)</span> <span class="title">Worker</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> Worker&#123;</span><br><span class="line">      Id:         id,</span><br><span class="line">      Func:       handFunctions,</span><br><span class="line">      WorkerPool: workerPool,</span><br><span class="line">      Name:       name + <span class="string">&quot;-&quot;</span> + strconv.Itoa(id),</span><br><span class="line">      InTask:     <span class="built_in">make</span>(<span class="keyword">chan</span> Task),</span><br><span class="line">      QuitSignal: <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>),</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Start worker</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w Worker)</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">      <span class="keyword">var</span> msg Task</span><br><span class="line">      <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">         <span class="keyword">if</span> r := <span class="built_in">recover</span>(); r != <span class="literal">nil</span> &#123;</span><br><span class="line">            w.Func.ErrorCallback(msg, time.Now(), time.Now(), fmt.Errorf(<span class="string">&quot;fatal error in task: %s&quot;</span>, r))</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;()</span><br><span class="line">      <span class="keyword">for</span> &#123;</span><br><span class="line">         <span class="keyword">select</span> &#123;</span><br><span class="line">         <span class="keyword">case</span> &lt;-w.QuitSignal:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">         <span class="keyword">case</span> w.WorkerPool &lt;- w.InTask:</span><br><span class="line">            msg = &lt;-w.InTask</span><br><span class="line">            timeTrackStart := time.Now()</span><br><span class="line">            err := w.Func.TaskHandleFunc(msg, w.Name)</span><br><span class="line">            timeTrackStop := time.Now()</span><br><span class="line">            <span class="keyword">if</span> err != <span class="literal">nil</span> &amp;&amp; w.Func.ErrorCallback != <span class="literal">nil</span> &#123;</span><br><span class="line">               w.Func.ErrorCallback(msg, timeTrackStart, timeTrackStop, err)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> err == <span class="literal">nil</span> &amp;&amp; w.Func.SuccessCallback != <span class="literal">nil</span> &#123;</span><br><span class="line">               w.Func.SuccessCallback(msg, timeTrackStart, timeTrackStop)</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Stop the worker.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w Worker)</span> <span class="title">Stop</span><span class="params">()</span></span> &#123;</span><br><span class="line">   w.QuitSignal &lt;- <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CoroutinePool Processor structure</span></span><br><span class="line"><span class="keyword">type</span> CoroutinePool <span class="keyword">struct</span> &#123;</span><br><span class="line">   workerPool    <span class="keyword">chan</span> <span class="keyword">chan</span> Task</span><br><span class="line">   workerList    []Worker</span><br><span class="line">   DecoderParams HandleFunctions</span><br><span class="line">   Name          <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CreateCoroutinePool Create a task coroutine pool which is going to create all the workers and set-up the pool.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CreateCoroutinePool</span><span class="params">(numWorkers <span class="keyword">int</span>, handlerParams HandleFunctions, name <span class="keyword">string</span>)</span> <span class="title">CoroutinePool</span></span> &#123;</span><br><span class="line">   pool := CoroutinePool&#123;</span><br><span class="line">      workerPool:    <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">chan</span> Task),</span><br><span class="line">      workerList:    <span class="built_in">make</span>([]Worker, numWorkers),</span><br><span class="line">      DecoderParams: handlerParams,</span><br><span class="line">      Name:          name,</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; numWorkers; i++ &#123;</span><br><span class="line">      worker := CreateWorker(pool.workerPool, handlerParams, i, name)</span><br><span class="line">      pool.workerList[i] = worker</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> pool</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p CoroutinePool)</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">for</span> _, worker := <span class="keyword">range</span> p.workerList &#123;</span><br><span class="line">      worker.Start()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p CoroutinePool)</span> <span class="title">Stop</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">for</span> _, worker := <span class="keyword">range</span> p.workerList &#123;</span><br><span class="line">      worker.Stop()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p CoroutinePool)</span> <span class="title">PublishTask</span><span class="params">(task Task)</span></span> &#123;</span><br><span class="line">   taskChannel := &lt;-p.workerPool</span><br><span class="line">   taskChannel &lt;- task</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>GO</category>
+      </categories>
+      <tags>
+        <tag>GO</tag>
+      </tags>
   </entry>
   <entry>
     <title>go查询Elastic</title>
@@ -518,7 +590,83 @@
         <category>GO</category>
       </categories>
       <tags>
-        <tag>go开发</tag>
+        <tag>GO</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>go依赖注入</title>
+    <url>/2021/12/23/go%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<p>在学习go的依赖注入之前，先了解下“依赖注入”和“控制反转”两个东西：</p>
+<p>正常情况下，对函数或方法的调用是我们的主动直接行为，在调用某个函数之前我们需要清楚地知道被调函数的名称是什么，参数有哪些类型等等。</p>
+<p>所谓的控制反转就是将这种主动行为变成间接的行为，我们不用直接调用函数或对象，而是借助框架代码进行间接的调用和初始化，这种行为称作“控制反转”，库和框架能很好的解释控制反转的概念。</p>
+<p>依赖注入是实现控制反转的一种方法，如果说控制反转是一种设计思想，那么依赖注入就是这种思想的一种实现，通过注入参数或实例的方式实现控制反转。如果没有特殊说明，我们可以认为依赖注入和控制反转是一个东西。</p>
+<span id="more"></span>
+
+<p>Go的依赖注入框架有两类，一类是通过反射在运行时进行依赖注入，典型代表是 uber 开源的 dig，另外一类是通过 generate 进行代码生成，典型代表是 Google 开源的 wire。</p>
+<p>实际项目中我们使用wire实现依赖注入，<code>wire</code>是 Google 开源的一个依赖注入工具。它是一个代码生成器，并不是一个框架。我们只需要在一个特殊的<code>go</code>文件中告诉<code>wire</code>类型之间的依赖关系，它会自动帮我们生成代码，帮助我们创建指定类型的对象，并组装它的依赖。</p>
+<!-- more -->
+
+<h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><p>wire有两个基础概念，构造器provider和injector注入器：</p>
+<ul>
+<li>Provider：是一个普通的函数，这个函数会返回构建依赖关系所需的组件。相当于实例化一个对象。</li>
+<li>injector：也是一个普通函数，我们常常在 <code>wire.go</code> 文件中定义 injector 函数签名，然后通过 <code>wire</code> 命令自动生成一个完整的函数。</li>
+</ul>
+<h4 id="provider构造器"><a href="#provider构造器" class="headerlink" title="provider构造器"></a>provider构造器</h4><p>provider函数，一般跟着结构体对象定义，<strong>在 wire 中不能存在两个 provider 返回相同的组件类型</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> UserService <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserService</span><span class="params">()</span> *<span class="title">UserService</span></span> &#123;</span><br><span class="line">   <span class="keyword">return</span> &amp;UserService&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在wire_set.go设置provider set：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;github.com/102er/apiserver/internal/service&quot;</span></span><br><span class="line">   <span class="string">&quot;github.com/google/wire&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ProviderSet = wire.NewSet(service.NewUserService)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以使用<strong>ProviderSet</strong>，它主要把provider打包成一个集合，我们传给injector只需要传这个集合即可，这样方便我们维护provide。当然，也可以直接把NewUserService()这个函数传给injector的build函数</p>
+<h4 id="injector注入器"><a href="#injector注入器" class="headerlink" title="injector注入器"></a>injector注入器</h4><p>injector函数一般定义在wire.go文件中，通过wire命令自动生成一个完整的函数，wire.go代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//go:build wireinject</span></span><br><span class="line"><span class="comment">// +build wireinject</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The build tag makes sure the stub is not built in the final build.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/102er/apiserver/internal&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/102er/apiserver/internal/server&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/google/wire&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化，且会返回一个gin的engine </span></span><br><span class="line"><span class="comment">//main函数可以调用initApi 拿到 gin.engine 启动服</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initApi</span><span class="params">()</span> <span class="params">(*gin.Engine, error)</span></span> &#123;</span><br><span class="line">	<span class="built_in">panic</span>(wire.Build(internal.ProviderSet, server.NewGinHttpServer))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>//+build wireinject<code>与</code>package main`这两行之间的空行必须要有。</li>
+<li><code>+build</code>其实是 Go 语言的一个特性。类似 C/C++ 的条件编译，在执行<code>go build</code>时可传入一些选项，根据这个选项决定某些文件是否编译。<code>//+build wireinject</code> 注释确保了这个文件在我们正常编译的时候不会被引用。</li>
+<li><code>wire</code>工具只会处理有<code>wireinject</code>的文件，所以我们的<code>wire.go</code>文件要加上这个。</li>
+</ul>
+<p>上面的代码通过 wire 工具生成：wire_gen.go代码：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Code generated by Wire. DO NOT EDIT.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//go:generate go run github.com/google/wire/cmd/wire</span></span><br><span class="line"><span class="comment">//go:build !wireinject</span></span><br><span class="line"><span class="comment">// +build !wireinject</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;github.com/102er/apiserver/internal/server&quot;</span></span><br><span class="line">   <span class="string">&quot;github.com/102er/apiserver/internal/service&quot;</span></span><br><span class="line">   <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Injectors from wire.go:</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initApi</span><span class="params">()</span> <span class="params">(*gin.Engine, error)</span></span> &#123;</span><br><span class="line">   userService := service.NewUserService()</span><br><span class="line">   engine := server.NewGinHttpServer(userService)</span><br><span class="line">   <span class="keyword">return</span> engine, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main函数如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">&quot;fmt&quot;</span></span><br><span class="line">   v1 <span class="string">&quot;github.com/102er/apiserver/api/v1&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   reply := v1.HelloReply&#123;Message: <span class="string">&quot;102er&quot;</span>&#125;</span><br><span class="line">   fmt.Println(<span class="string">&quot;start api server,&quot;</span>, reply.Message)</span><br><span class="line">  <span class="comment">//调用的是 wire_gen.go 生成的函数</span></span><br><span class="line">   srv, err := initApi()</span><br><span class="line">   <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="built_in">panic</span>(err)</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="comment">//启动gin服务</span></span><br><span class="line">   err = srv.Run()</span><br><span class="line">   <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">      <span class="built_in">panic</span>(err)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h4 id="不要使用默认类型"><a href="#不要使用默认类型" class="headerlink" title="不要使用默认类型"></a>不要使用默认类型</h4><p>wire 不支持两个提供<strong>两个相同类型</strong>的 provider，所以如果我们使用默认类型如 <code>int</code> <code>string</code> 等，只要有两个依赖就会导致报错，解决方案是使用类型别名。</p>
+<h4 id="Option-Struct"><a href="#Option-Struct" class="headerlink" title="Option Struct"></a>Option Struct</h4><p>某个provide函数可能会有很多参数，这时候可以定义option struct，使用 <code>wire.Strcut</code> 来构建 Option Strcut 的依赖</p>
+<h4 id="返回错误"><a href="#返回错误" class="headerlink" title="返回错误"></a>返回错误</h4><p>在 go 中如果遇到错误，我们会在最后一个返回值返回 error，wire 同样也支持返回错误的情况，只需要在 injector 的函数签名中加上 error 返回值即可</p>
+<h4 id="清理函数"><a href="#清理函数" class="headerlink" title="清理函数"></a>清理函数</h4><p>通常打开文件或者是链接这种需要关闭的资源，这时候 provider 可以返回一个闭包函数 <code>func()</code> ，wire 在进行构建的时候，会在报错的时候调用，并且会将所有的<strong>闭包</strong>函数聚合返回。</p>
+<p>完整代码示例参数：<a href="https://github.com/102er/apiserver">102er-apiserver</a></p>
+]]></content>
+      <tags>
+        <tag>GO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>消息队列介绍</title>
+    <url>/2020/06/19/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>​        消息队列是一种异步的服务间通信方式，适用于无服务器和微服务架构。消息在被处理和删除之前一直存储在队列上。每条消息仅可被一位用户处理一次。消息队列可被用于分离重量级处理、缓冲或批处理工作以及缓解高峰期工作负载。常见的消息队列：rabbitMQ，pulsar，kafka，redis，ActiveMQ…</p>
+<h3 id="rabbitMQ"><a href="#rabbitMQ" class="headerlink" title="rabbitMQ"></a>rabbitMQ</h3><h2 id="pulsar"><a href="#pulsar" class="headerlink" title="pulsar"></a>pulsar</h2><h2 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h2>]]></content>
+      <categories>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>errors封装</title>
+    <url>/2021/12/25/errors%E5%B0%81%E8%A3%85/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>aes加密</title>
+    <url>/2021/05/25/aes%E5%8A%A0%E5%AF%86/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>分布式锁</title>
+    <url>/2021/02/25/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>

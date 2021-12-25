@@ -4,7 +4,7 @@ date: 2020-04-10 15:21:12
 categories:
     - GO
 tags:
-    - go开发
+    - GO
 ---
 
 ## init()函数是什么？

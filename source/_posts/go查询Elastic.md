@@ -4,7 +4,7 @@ date: 2021-07-16 00:18:28
 categories:
     - GO
 tags:
-    - go开发
+    - GO
 ---
 
 go操作elasticsearch有两个常用的库：

@@ -2,7 +2,7 @@
 title: mysql索引介绍
 date: 2020-03-12 14:31:03
 categories:
-    - 数据库
+    - 存储
 tags:
     - mysql
 ---

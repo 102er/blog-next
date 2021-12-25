@@ -4,7 +4,7 @@ date: 2021-12-15 00:17:53
 categories:
     - GO
 tags:
-    - go开发
+    - GO
 ---
 
 go常用 [validator](https://github.com/go-playground/validator) 进行字段参数校验，其内置了很多常用的字段参数校验方法，同时支持注册自定义方案。v10版本有支持验证结果的国际化。内置的验证tag翻阅文档：[内置tag](https://github.com/go-playground/validator/blob/master/README.md) 

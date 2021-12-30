@@ -134,4 +134,4 @@ func TestLocalize(t *testing.T) {
 }
 ```
 
-完整代码示例参数：[102er-apiserver](https://github.com/102er/apiserver)
+完整代码示例参数：[102er-apiserver](https://github.com/102er/apiserver/tree/main/pkg/i18n)

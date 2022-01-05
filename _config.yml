@@ -105,3 +105,6 @@ deploy:
   type: 'git'
   repo: 'git@github.com:102er/102er.github.io.git'
   branch: 'master'
+
+sitemap:
+    path: sitemap.xml

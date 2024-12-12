@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  docsify-blog:
+    image: docsify/102er-blog   # 使用本地镜像
+    container_name: docsify_blog
+    ports:
+      - "3000:3000"             # 映射本地 3000 端口到容器的 3000 端口
+    volumes:
+      - ./docs:/docs            # 挂载本地目录 ./docs 到容器内的 /docs
+    command: "docsify serve /docs"  # 启
+

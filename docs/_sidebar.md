@@ -6,6 +6,5 @@
 * 设计模式
   * [设计模式](design_patterns)
 * redis
-  * [redis主从模式](redis_replicaof)
-  * [redis哨兵集群](redis_sentinel)
-  * 
+  * [主从模式](redis_replicaof)
+  * [哨兵集群](redis_sentinel)

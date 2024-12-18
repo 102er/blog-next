@@ -1,4 +1,4 @@
-## 介绍
+## **介绍**
 
 哨兵（sentinel），是一个分布式系统，用于对主从结构中的每一台服务器进行监控，当master节点出现故障后通过投票机制来挑选新的master节点 ，并且讲所有的salve节点连接到master节点上。
 
@@ -8,11 +8,13 @@ redis哨兵（sentinel）是运行在特殊模式下的redis服务器，不支�
 - 自动切换主库：当master节点运行故障，哨兵启动自动故障恢复流程：从slave中选择一台作为新的master
 - 通知：让slave执行replicaof，和新的master同步，并且通知客户端和新master建立连接
 
-## 架构
+## **架构**
 
-## 哨兵原理
+<img src="redis基础集群.svg" alt="架构图" style="zoom:50%;" />
 
-### 监控
+## 哨兵
+
+### **监控**
 
 sentinel定期(1s)向master、slave和其他sentinel发送ping命令，回复有两种情况：
 
@@ -26,6 +28,6 @@ sentinel对探测结果的处理
 
 为了防止master节点假死，sentinel设计了【主观下线】和【客观下线】两个状态。
 
-#### 主观下线
+#### **主观下线**
 
-#### 客观下线
+#### **客观下线**

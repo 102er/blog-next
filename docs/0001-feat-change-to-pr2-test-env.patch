@@ -1,0 +1,115 @@
+From e7aee6d35b10a7b226ad2eb86c950bb3aa0950cf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E6=99=A8=E6=97=B8?= <chenyang.zhang@baishan.com>
+Date: Mon, 19 Aug 2024 14:56:59 +0800
+Subject: [PATCH] feat: change to pr2 test env
+
+---
+ napix/lb7/config/init.lua    |  2 +-
+ napix/lb7/config/scdn_en.lua | 23 +++++++++++++++--------
+ 2 files changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/napix/lb7/config/init.lua b/napix/lb7/config/init.lua
+index cdd1bda..d28be37 100644
+--- a/napix/lb7/config/init.lua
++++ b/napix/lb7/config/init.lua
+@@ -9,7 +9,7 @@ local _M = {
+
+ 	-- en: pr/国际站(国际站记得替换它对应的scdn_en.lua)
+ 	-- zh: 国内云防
+-    language = "zh",
++    language = "en",
+ 	iscenter = 0,
+ }
+
+diff --git a/napix/lb7/config/scdn_en.lua b/napix/lb7/config/scdn_en.lua
+index 7c1df30..0687675 100644
+--- a/napix/lb7/config/scdn_en.lua
++++ b/napix/lb7/config/scdn_en.lua
+@@ -7,9 +7,16 @@ local _M = {
+     redis_clusters              = {
+         {
+             servers             = {
+-                {ip = "18.167.245.91", port = 62345 },
+-                {ip = "18.166.10.58", port = 62345 },
+-                {ip = "18.166.135.19", port = 62345 },
++                -- PR
++                -- {ip = "18.167.245.91", port = 62345 },
++                -- {ip = "18.166.10.58", port = 62345 },
++                -- {ip = "18.166.135.19", port = 62345 },
++                -- intl
++                -- {ip = "156.225.103.62", port = 9667 },
++                -- {ip = "156.225.103.62", port = 9668 },
++                -- {ip = "156.225.103.62", port = 9669 },
++                -- test
++                {ip = "172.18.154.66", port = 62345 },
+             }
+         }
+     },
+@@ -49,11 +50,17 @@ local _M = {
+     },
+     custom_listen_mode          = 0,
+     read_public_ip_urls         = {
+-        "http://38.46.10.162/prcdn_monitor_node",
+-        "http://154.39.104.5/prcdn_monitor_node",
+-        "http://38.57.128.66/prcdn_monitor_node",
+-        "http://156.224.29.2/prcdn_monitor_node",
+-        "https://ifconfig.io"
++        -- "http://127.0.0.1/prcdn_monitor_node",
++        -- "http://38.46.10.162/prcdn_monitor_node",
++        -- "http://154.39.104.5/prcdn_monitor_node",
++        -- "http://38.57.128.66/prcdn_monitor_node",
++        -- "http://156.224.29.2/prcdn_monitor_node",
++        -- "https://ifconfig.io"
++        "http://47.101.18.14/yundun_monitor_node -H 'Host:www.yundun.com'",
++        "http://106.13.251.222/yundun_monitor_node -H 'Host:www.yundun.com'",
++        "http://140.143.52.232/yundun_monitor_node -H 'Host:www.yundun.com'",
++        "https://ifconfig.io",
++        "http://www.yundun.com/yundun_monitor_node"
+     },
+     support_english             = 1,
+     report_icp_license_url      = "http://report_no_icp_domain_ip/server/api/beian/invalid/domain",
+--
+2.43.0
+
+From 786087598244c0bd9fb5983927609600244da3e1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E6=99=A8=E6=97=B8?= <chenyang.zhang@baishan.com>
+Date: Wed, 7 Aug 2024 17:45:54 +0800
+Subject: [PATCH] feat: abc
+
+---
+ conf/server.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/conf/server.conf b/conf/server.conf
+index df39657..12b6ad5 100644
+--- a/conf/server.conf
++++ b/conf/server.conf
+@@ -96,5 +96,5 @@ server {
+             proxy_pass http://blb_backend;
+         }
+ 
+-        include location.conf;
++        include location_pr.conf;
+ }
+-- 
+2.43.0
+
+
+---
+ scdn/logger/logger.lua | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/napix/scdn/logger/logger.lua b/napix/scdn/logger/logger.lua
+index 3a3565e..7ac67b4 100644
+--- a/napix/scdn/logger/logger.lua
++++ b/napix/scdn/logger/logger.lua
+@@ -773,6 +773,7 @@ local function dispatch_log(ups)
+             local msg = cjson_encode(tb_msg)
+             tb_msg["log_sample"] = nil
+             log_to_nsqd(nsqd_topic, msg)
++            ngx.log(ngx.ERR, "zcy test: log_type:", log_type, " msg:",msg)
+         end
+     end
+ 
+-- 
+2.43.0

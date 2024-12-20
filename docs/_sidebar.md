@@ -1,15 +1,15 @@
 * **102ER**
 * **网络**
-  * [**TCP三次握手和四次挥手**](tcp_conn)
-  * [**UDP**](tcp_conn)
+  * [TCP三次握手和四次挥手](tcp_conn)
+  * [UDP](tcp_conn)
 * **GO**
   * **[协程调度](协程调度)**
 * **分布式**
-  * [**分布式锁**](分布式锁)
+  * [分布式锁](分布式锁)
 * **设计模式**
   * [设计模式](design_patterns)
 * **RABBITMQ**
 * **MONGODB**
 * **REDIS**
-  * [**主从模式**](redis_replicaof)
-  * [**哨兵集群**](redis_sentinel)
+  * [主从模式](redis_replicaof)
+  * [哨兵集群](redis_sentinel)

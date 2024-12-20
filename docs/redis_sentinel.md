@@ -10,7 +10,7 @@ redis哨兵（sentinel）是运行在特殊模式下的redis服务器，不支�
 
 ## **架构**
 
-<img src="redis-sentinel.svg" alt="架构图" style="zoom:50%;" />
+<img src="redis-sentinel.svg" alt="架构图" style="zoom:100%;" />
 
 ## 哨兵
 
@@ -18,27 +18,29 @@ redis哨兵（sentinel）是运行在特殊模式下的redis服务器，不支�
 
 sentinel定期(1s)向master、slave和其他sentinel发送ping命令，回复有两种情况：
 
-- 有效回复：返回+PONG、
-- 无效回复：有效回复之外的回复，或者指定啥时间内返回任何回复
+```
+- 有效回复：返回+PONG、+LOADING、-MASTERDOWN
+- 无效回复：有效回复之外的回复，或者指定啥时间内(down-after-millisenconds)没有返回任何响应
+```
 
-sentinel对探测结果的处理
+sentinel对redis节点探测结果的处理
 
-- slave没有在规定时间响应sentinel的ping命令，sentinel就认为slave节点嗝屁了，就会将他记录为【下线状态】
+- slave没有在规定时间响应sentinel的ping命令，sentinel就认为slave节点挂了，就会将他记录为【下线状态】
 - master没有在规定时间内响应sentinel的ping命令，sentinel就判定master下线，开始执行【自动切换master】的流程
 
-为了防止master节点假死，sentinel设计了【主观下线】和【客观下线】两个状态。
+正常情况下，单台哨兵不能判断master真的下线，为了防止master节点假死，sentinel设计了【主观下线】和【客观下线】两个状态
 
 #### **主观下线**
 
-哨兵对节点进行探测，没有得到有效回复的时候，就会对节点标记【主观下线】，执行**<u>+sdown</u>**
+哨兵对节点进行探测，没有得到有效回复的时候，就会对节点标记<u>sdown</u>状态【主观下线】
 
-如果是slave节点，对集群没有影响，不会进行下一步动作。
+如果是slave节点，对集群没有影响，不会进行下一步动作
 
-如果是master节点，哨兵会确认master节点是否真的下线，并执行故障转移。
+如果是master节点，哨兵会确认master节点是否真的下线，并执行故障转移
 
 #### **客观下线**
 
-哨兵确认master节点是否真的宕机，需要进行投票，所有哨兵达成共识（哨兵投票，如果票数大于一半，且大于等于**`quorum`**设置的数量，就是投票成功）认为master节点【主观下线】了，哨兵才能确认master节点【客观下线】，执行**<u>+odown</u>**
+哨兵确认master节点是否真的宕机，需要进行投票，所有哨兵达成共识（哨兵投票，如果票数大于一半，且大于等于**`quorum`**设置的数量，就是投票成功）认为master节点【主观下线】了，哨兵才能确认master节点【客观下线】，执行**<u>odown</u>**
 
 ```
 # sentinel.conf

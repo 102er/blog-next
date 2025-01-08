@@ -39,12 +39,9 @@ sentinel知道所有redis节点之后，会定期(1s)向master、slave和其他s
 - 无效回复：有效回复之外的回复，或者指定啥时间内(down-after-millisenconds)没有返回任何响应
 ```
 
-sentinel对redis节点探测结果的处理
+slave节点没有在规定时间响应sentinel的ping命令，sentinel就认为slave节点挂了，就会将他记录为【下线状态】，而
 
-- slave没有在规定时间响应sentinel的ping命令，sentinel就认为slave节点挂了，就会将他记录为【下线状态】
-- master没有在规定时间内响应sentinel的ping命令，sentinel就判定master下线，开始执行【自动切换master】的流程
-
-正常情况下，单台哨兵不能判断master真的下线，为了防止master节点假死，sentinel设计了【主观下线】和【客观下线】两个状态
+master节点没有在规定时间内响应sentinel的ping命令，sentinel就判定master下线，但是单台哨兵不能判断master真的下线，为了防止master节点假死，sentinel设计了【主观下线】和【客观下线】两个状态
 
 ##### **主观下线**
 

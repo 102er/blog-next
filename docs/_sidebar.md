@@ -16,3 +16,4 @@
 * **REDIS**
   * [主从模式](redis_replicaof)
   * [哨兵集群](redis_sentinel)
+  * [缓存穿透](缓存穿透)

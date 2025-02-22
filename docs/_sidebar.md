@@ -12,6 +12,8 @@
 * **设计模式**
   * [设计模式](design_patterns)
 * **RABBITMQ**
+* **MYSQL**
+  * [mysql事务和锁](mysql-lock)
 * **MONGODB**
 * **REDIS**
   * [主从模式](redis_replicaof)

@@ -14,6 +14,7 @@
 * **RABBITMQ**
 * **MYSQL**
   * [mysql事务和锁](mysql-lock)
+  * [mysql升级到8.0](mysql-up8)
 * **MONGODB**
 * **REDIS**
   * [主从模式](redis_replicaof)
